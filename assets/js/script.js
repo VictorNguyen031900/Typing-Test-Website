@@ -129,8 +129,24 @@ function calculateStats() {
     
     wpmElement.textContent = wpm;
     
-    // Highlight incorrect characters
-    highlightIncorrectChars(typedText);
+    // Highlight words with proper progression
+    highlightWords(typedText);
+}
+
+function getCurrentWordPosition(typedText) {
+    const targetText = testTextElement.textContent;
+    const typedWords = typedText.split(/\s+/).filter(word => word.length > 0);
+    const targetWords = targetText.split(/\s+/).filter(word => word.length > 0);
+    
+    // Find the first position where typed words don't match target
+    for (let i = 0; i < Math.min(typedWords.length, targetWords.length); i++) {
+        if (typedWords[i] !== targetWords[i]) {
+            return i;
+        }
+    }
+    
+    // If all typed words match, return the position after the last typed word
+    return Math.min(typedWords.length, targetWords.length);
 }
 
 function highlightIncorrectChars(typedText) {
@@ -210,6 +226,8 @@ function highlightWords(typedText) {
     
     testTextElement.innerHTML = htmlOutput;
 }
+
+
 
 function countCorrectWords(typedText) {
     const targetText = testTextElement.textContent;
