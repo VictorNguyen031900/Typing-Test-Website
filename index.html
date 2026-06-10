@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Test</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Typing Speed Test</h1>
+        
+        <div class="stats">
+            <div class="stat">
+                <div>Words per Minute</div>
+                <div class="stat-value" id="wpm">0</div>
+            </div>
+            <div class="stat">
+                <div>Time Remaining</div>
+                <div class="stat-value" id="timer">60s</div>
+            </div>
+        </div>
+        
+        <div class="text-container" id="test-text"></div>
+        
+        <textarea id="typing-area" placeholder="Start typing to begin the test..." autofocus></textarea>
+        
+        <div class="options">
+            <button id="reset-btn">Reset Test</button>
+            <div class="option-group">
+                <input type="checkbox" id="special-chars">
+                <label for="special-chars">Include Special Characters</label>
+            </div>
+            <div class="option-group">
+                <input type="checkbox" id="capitalization">
+                <label for="capitalization">Include Capitalization</label>
+            </div>
+        </div>
+    </div>
+    
+    <div id="results-modal" class="modal">
+        <div class="modal-content">
+            <h2>Test Complete!</h2>
+            <div class="final-stats">
+                <div class="stat">
+                    <div>Final WPM</div>
+                    <div class="stat-value" id="final-wpm">0</div>
+                </div>
+            </div>
+            <button id="close-modal">Start New Test</button>
+        </div>
+    </div>
+    
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
