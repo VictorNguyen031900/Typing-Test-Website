@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+        }
+        .test-case {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .correct-word {
+            color: #50fa7b;
+            text-decoration: underline;
+        }
+        .incorrect-word {
+            color: #ff5555;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <h1>Typing Test Validation</h1>
+    
+    <div class="test-case">
+        <h3>Test Case 1: Perfect Match</h3>
+        <p><strong>Target:</strong> the quick brown fox</p>
+        <p><strong>Typed:</strong> the quick brown fox</p>
+        <div id="test1"></div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test Case 2: One Incorrect Word</h3>
+        <p><strong>Target:</strong> the quick brown fox</p>
+        <p><strong>Typed:</strong> the slow brown fox</p>
+        <div id="test2"></div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test Case 3: Extra Characters</h3>
+        <p><strong>Target:</strong> the quick brown fox</p>
+        <p><strong>Typed:</strong> thee quick brown fox</p>
+        <div id="test3"></div>
+    </div>
+    
+    <div class="test-case">
+        <h3>Test Case 4: Missing Characters</h3>
+        <p><strong>Target:</strong> the quick brown fox</p>
+        <p><strong>Typed:</strong> the quik brown fox</p>
+        <div id="test4"></div>
+    </div>
+    
+    <script>
+        // Test the analyzeTypedWords function
+        const testCases = [
+            { target: 'the quick brown fox', typed: 'the quick brown fox' },
+            { target: 'the quick brown fox', typed: 'the slow brown fox' },
+            { target: 'the quick brown fox', typed: 'thee quick brown fox' },
+            { target: 'the quick brown fox', typed: 'the quik brown fox' }
+        ];
+        
+        function analyzeTypedWords(typedText) {
+            const targetWords = typedText.split(/\s+/).filter(word => word.length > 0);
+            const typedWords = typedText.split(/\s+/).filter(word => word.length > 0);
+
+            let results = {
+                correctWords: 0,
+                incorrectWords: [],
+                currentWordIndex: Math.min(typedWords.length, targetWords.length)
+            };
+
+            // Compare word by word
+            for (let i = 0; i < Math.min(typedWords.length, targetWords.length); i++) {
+                if (typedWords[i] === targetWords[i]) {
+                    results.correctWords++;
+                } else {
+                    results.incorrectWords.push({
+                        index: i,
+                        typed: typedWords[i],
+                        target: targetWords[i]
+                    });
+                }
+            }
+
+            return results;
+        }
+        
+        function highlightWords(typedText) {
+            const targetWords = typedText.split(/\s+/).filter(word => word.length > 0);
+            const typedWords = typedText.split(/\s+/).filter(word => word.length > 0);
+
+            let htmlOutput = '';
+
+            // Process each word in target text
+            for (let i = 0; i < targetWords.length; i++) {
+                const targetWord = targetWords[i];
+
+                if (i < typedWords.length) {
+                    const typedWord = typedWords[i];
+                    if (typedWord === targetWord) {
+                        // Correct word - green
+                        htmlOutput += `<span class="correct-word">${targetWord}</span> `;
+                    } else {
+                        // Incorrect word - red
+                        htmlOutput += `<span class="incorrect-word">${targetWord}</span> `;
+                    }
+                } else {
+                    // Not yet typed - normal
+                    htmlOutput += `${targetWord} `;
+                }
+            }
+
+            return htmlOutput;
+        }
+        
+        // Run tests
+        testCases.forEach((testCase, index) => {
+            const analysis = analyzeTypedWords(testCase.typed);
+            const html = highlightWords(testCase.typed);
+            
+            document.getElementById(`test${index + 1}`).innerHTML = `
+                <p><strong>Analysis:</strong> ${analysis.correctWords} correct words, ${analysis.incorrectWords.length} incorrect</p>
+                <p><strong>Visual:</strong> ${html}</p>
+            `;
+        });
+    </script>
+</body>
+</html>

@@ -68,8 +68,6 @@ function generateEndlessText() {
 }
 
 function startTest() {
-    //currentText = generateEndlessText();
-    //testTextElement.textContent = currentText;
     typingArea.value = '';
     
     startTime = new Date();
@@ -148,6 +146,65 @@ function highlightIncorrectChars(typedText) {
             }
         } else {
             htmlOutput += targetText[i];
+        }
+    }
+    
+    testTextElement.innerHTML = htmlOutput;
+}
+
+function analyzeTypedWords(typedText) {
+    const targetText = testTextElement.textContent;
+    let results = {
+        correctWords: 0,
+        incorrectWords: [],
+        currentWordIndex: 0
+    };
+    
+    // Split both target and typed text into words
+    const targetWords = targetText.split(/\s+/).filter(word => word.length > 0);
+    const typedWords = typedText.split(/\s+/).filter(word => word.length > 0);
+    
+    // Compare word by word
+    for (let i = 0; i < Math.min(typedWords.length, targetWords.length); i++) {
+        if (typedWords[i] === targetWords[i]) {
+            results.correctWords++;
+        } else {
+            results.incorrectWords.push({
+                index: i,
+                typed: typedWords[i],
+                target: targetWords[i]
+            });
+        }
+    }
+    
+    results.currentWordIndex = Math.min(typedWords.length, targetWords.length);
+    return results;
+}
+
+function highlightWords(typedText) {
+    const targetText = testTextElement.textContent;
+    let htmlOutput = '';
+    
+    // Split both target and typed text into words
+    const targetWords = targetText.split(/\s+/).filter(word => word.length > 0);
+    const typedWords = typedText.split(/\s+/).filter(word => word.length > 0);
+    
+    // Process each word in target text
+    for (let i = 0; i < targetWords.length; i++) {
+        const targetWord = targetWords[i];
+        
+        if (i < typedWords.length) {
+            const typedWord = typedWords[i];
+            if (typedWord === targetWord) {
+                // Correct word - green
+                htmlOutput += `<span class="correct-word">${targetWord}</span> `;
+            } else {
+                // Incorrect word - red
+                htmlOutput += `<span class="incorrect-word">${targetWord}</span> `;
+            }
+        } else {
+            // Not yet typed - normal
+            htmlOutput += `${targetWord} `;
         }
     }
     

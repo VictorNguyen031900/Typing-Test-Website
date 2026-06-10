@@ -29,6 +29,17 @@ h1 {
 
 .incorrect-char {
     color: #ff5555;
+    background-color: rgba(255, 85, 85, 0.3);
+}
+
+.correct-word {
+    color: #50fa7b;
+    text-decoration: underline;
+}
+
+.incorrect-word {
+    color: #ff5555;
+    text-decoration: line-through;
 }
 textarea {
     width: 100%;
